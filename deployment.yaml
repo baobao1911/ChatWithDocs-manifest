@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-serving-backend-deployment
+  labels:
+    app: model-serving-backend
+  namespace: model-serving
+spec:
+  selector:
+    matchLabels:
+      app: model-serving-backend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: model-serving-backend
+    spec:
+      containers:
+        - name: model-serving-backend
+          image: nguyenbao19/chat-with-docs:latest
+          ports:
+            - containerPort: 30000
+              protocol: TCP
+          resources:
+            requests:
+              memory: 1024Mi
+              cpu: 1000m
+      imagePullSecrets:
+        - name: auth-registry
